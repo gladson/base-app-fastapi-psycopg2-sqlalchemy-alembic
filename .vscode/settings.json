@@ -1,0 +1,5 @@
+{
+  "python.defaultInterpreterPath": "~/AppData/Local/Poetry/Cache/virtualenvs/as-nacoes-api-Hbd2Bl6G-py3.12",
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.autoImportCompletions": true
+}

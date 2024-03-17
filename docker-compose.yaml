@@ -1,0 +1,47 @@
+version: "3.8"
+name: base_app
+
+services:
+  server:
+    container_name: server
+    image: base_app_server
+    hostname: server
+    restart: unless-stopped
+    build:
+      context: .
+      args:
+        DEBUG: ${DEBUG}
+        DATABASE_URL: "${DATABASE_URL}"
+    # environment:
+    #   - DEBUG='true'
+    #   - DATABASE_URL=postgresql+psycopg2://postgres:postgres@0.0.0.0:5432/name_db
+    env_file:
+      - .env.development
+    volumes:
+      - ./src:/app/
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13-alpine3.19
+    container_name: db
+    environment:
+      - POSTGRES_DB=name_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+
+  db_admin:
+    image: dpage/pgadmin4:8.4
+    container_name: db_admin
+    ports:
+      - 5050:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=seu_email@email.com
+      - PGADMIN_DEFAULT_PASSWORD=postgres
+
+volumes:
+  pgdata:
